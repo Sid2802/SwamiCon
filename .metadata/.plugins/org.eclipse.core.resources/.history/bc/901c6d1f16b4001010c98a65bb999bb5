@@ -1,0 +1,30 @@
+package com.example.Swamicon.service;
+
+import org.springframework.context.support.BeanDefinitionDsl.Role;	
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.example.Swamicon.dto.RegisterRequest;
+import com.example.Swamicon.repository.UserRepository;
+import com.example.Swamicon.utility.JwtUtil;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+	private final UserRepository userRepository;
+	private  final PasswordEncoder passwordEncoder;
+	private final JwtUtil jwtUtil;
+	
+	//register
+	public String register(RegisterRequest request) {
+		if(userRepository.findByEmail(request.getEmail()).isPresent()) {
+				throw new RuntimeException("Email already registered");
+		}
+		
+		User user=User.builder()
+				.full
+	}
+}

@@ -1,0 +1,5 @@
+package com.example.Swamicon.controller;
+
+public class AuthController {
+
+}
