@@ -1,5 +1,0 @@
-package com.example.Swamicon.dto;
-
-public class RegisterResponse {
-
-}
