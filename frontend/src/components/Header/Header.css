@@ -1,0 +1,71 @@
+/* Header.css */
+
+/* General navbar styling */
+.navbar {
+  background-color: #2b15a7 !important;
+  padding: 0.7rem 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Logo sizing */
+.navbar-brand img {
+  max-height: 50px;
+  object-fit: contain;
+}
+
+/* Navigation links */
+.navbar-nav .nav-link {
+  font-size: 1rem;
+  font-weight: 500;
+  transition: color 0.3s ease, transform 0.2s ease;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #ff6b35 !important;
+  transform: translateY(-2px);
+}
+
+.navbar-nav .nav-link.active {
+    font-weight: 600;
+    margin-left: 1099px;
+}
+
+/* Contact icon link */
+.navbar-nav img {
+  vertical-align: middle;
+}
+
+
+
+/* Mobile menu toggle */
+.navbar-toggler {
+  border: none;
+  outline: none;
+}
+
+.navbar-toggler-icon {
+  background-image: none;
+  width: 25px;
+  height: 2px;
+  background-color: #333;
+  position: relative;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: "";
+  position: absolute;
+  width: 25px;
+  height: 2px;
+  background-color: #333;
+  left: 0;
+}
+
+/* .navbar-toggler-icon::before {
+  top: -8px;
+}
+
+.navbar-toggler-icon::after {
+  top: 8px;
+} */

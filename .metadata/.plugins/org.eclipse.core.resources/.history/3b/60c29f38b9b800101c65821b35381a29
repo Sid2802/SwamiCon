@@ -1,0 +1,5 @@
+package com.example.Swamicon.Entity.dto;
+
+public class RegisterRequest {
+
+}

@@ -1,0 +1,64 @@
+package com.example.Swamicon.Service;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.example.Swamicon.Entity.Role;
+import com.example.Swamicon.Entity.User;
+import com.example.Swamicon.Entity.dto.AuthResponse;
+import com.example.Swamicon.Entity.dto.LoginRequest;
+import com.example.Swamicon.Entity.dto.RegisterRequest;
+import com.example.Swamicon.Repository.UserRepository;
+import com.example.Swamicon.Utility.JwtUtil;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+	private final UserRepository userRepository;
+	
+	private final PasswordEncoder passwordEncoder;
+	
+	private final JwtUtil jwtUtil;
+	
+	
+	//Register User
+	
+	public String register(RegisterRequest request) {
+		if(userRepository.findByEmail(request.getEmail()).isPresent()) {
+			throw new RuntimeException("Email already exist");
+		}
+		
+		User user=User.builder()
+				.fullName(request.getFullName())
+				.email(request.getEmail())
+				.password(passwordEncoder.encode(request.getPassword()))
+				.role(Role.valueOf(request.getRole().toUpperCase()))
+				.build();
+		
+		userRepository.save(user);
+		return "User registered Successfully";
+	}
+	
+	 // Login user
+    public AuthResponse login(LoginRequest request) {
+        // Fetch user once
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Check password
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid Credentials!");
+        }
+
+        // Generate token
+        String token = jwtUtil.generateToken(user.getEmail());
+
+        // Return clean role without extra text
+        System.out.println("Logging role for user: " + user.getRole().name());
+
+        return new AuthResponse(token, user.getRole().name());
+    }
+
+}
