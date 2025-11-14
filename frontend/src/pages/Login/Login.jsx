@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import "./Login.css"; 
+import "./Login.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -12,12 +12,24 @@ const Login = () => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
- 
+  useEffect(() => {
+  window.history.pushState(null, "", window.location.href);
+
+  const handlePopState = () => {
+    window.history.pushState(null, "", window.location.href);
+  };
+
+  window.addEventListener("popstate", handlePopState);
+
+  return () => {
+    window.removeEventListener("popstate", handlePopState);
+  };
+}, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
@@ -30,19 +42,20 @@ const Login = () => {
 
       const { token, role } = response.data;
 
-     
+      // Store token and role
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
 
       setMessage("Login successful!");
 
-      
+      // Redirect based on role
       if (role === "ADMIN") {
-        navigate("/AdminDashboard");
-      }else if(role === "CUSTOMER"){
-        navigate("/CustomerDashboard");
-      }else if(role === "STAFF"){
-        navigate("/StaffDashboard");
+        
+        navigate("/AdminDashboard", { replace: true });
+      } else if (role === "CUSTOMER") {
+        navigate("/CustomerDashboard", { replace: true });
+      } else if (role === "STAFF") {
+        navigate("/StaffDashboard", { replace: true });
       } else {
         setMessage("Unknown role. Cannot navigate.");
       }
@@ -95,7 +108,6 @@ const Login = () => {
           </p>
         )}
 
-        
         <p className="login-register-text">
           Don’t have an account?{" "}
           <Link to="/register" className="login-register-link">

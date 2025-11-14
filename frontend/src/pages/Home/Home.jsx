@@ -11,8 +11,22 @@ import interior from '../../assets/images/interior.jpg';
 import maintaince from '../../assets/images/maintaince.jpeg';
 import Phone from "../../assets/images/phone.png"
 import Email from "../../assets/images/mail.png"
+import { useEffect } from 'react';
 
 const Home = () => {
+   useEffect(() => {
+    window.history.pushState(null, "", window.location.href);
+  
+    const handlePopState = () => {
+      window.history.pushState(null, "", window.location.href);
+    };
+  
+    window.addEventListener("popstate", handlePopState);
+  
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
   return (
     <div className="container">
       <div className="row">
